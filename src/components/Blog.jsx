@@ -4,7 +4,7 @@ import Post from './Post';
 class Blog extends React.Component {
 
   render() {
-    const posts = this.props.data.map(item => {
+    const posts = this.props.data.map((item) => {
       return (
         <Post key={item.id} post={item}></Post>
       );

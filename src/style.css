@@ -38,6 +38,7 @@
 
 .blog {
     padding: 30px;
+    margin-bottom: 70px;
 }
 
 .post {
@@ -81,4 +82,36 @@
     font-size: 12px;
     margin-right: 10px;
     color: #aaaaaa;
+}
+
+.form {
+    padding: 20px 0;
+    background: #339ec9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.form textarea {
+    width: 80%;
+    margin-right: 25px;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+.form button {
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #339ec9;
+    color: #fff;
+    letter-spacing: 0.1ch;
+}
+
+.my-post {
+    margin-left: auto;
+    width: max-content;
 }

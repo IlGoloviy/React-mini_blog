@@ -1,20 +1,44 @@
 import React from 'react';
 import Post from './Post';
+import InputForm from './InputForm';
+import MyPost from './MyPost';
 
 class Blog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+
+    this.myMessage = this.myMessage.bind(this);
+  }
+
+  myMessage(data) {
+    this.setState({
+      data: [...this.state.data, data]
+    });
+  }
 
   render() {
-    const posts = this.props.data.map((item) => {
+    const myPosts = this.state.data.map((post, index) => {
       return (
-        <Post key={item.id} post={item}></Post>
+        <MyPost key={index} post={post}></MyPost>
       );
     });
-    
+    const posts = this.props.data.map(post => {
+      return (
+        <Post key={post.id} post={post}></Post>
+      );
+    });
+    let renderPost = [...posts, ...myPosts];
 
     return(
+      <>
       <div className="blog">
-        {posts}
+        {renderPost}
       </div>
+      <InputForm setData={this.myMessage}></InputForm>
+      </>
     );
   }
 }

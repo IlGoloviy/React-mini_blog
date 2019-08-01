@@ -7,8 +7,8 @@ class MyPost extends React.Component {
     const time = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
 
     return (
-      <div className="post my-post">
-        <div className="post-content">
+      <div className="post left">
+        <div className="post-content left">
           <p>{post.text}</p>
           <div className="post-content-other">
             <span className="post-date">{time}</span>

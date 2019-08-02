@@ -5,8 +5,10 @@ import Layout from './layout/Layout';
 import Main from './pages/Main';
 import UsersPage from './pages/UsersPage';
 import UserPage from './pages/UserPage';
-import Posts from './pages/Posts';
-import Comments from './pages/Comments';
+import PostsPage from './pages/PostsPage';
+import PostPage from './pages/PostPage';
+import CommentsPage from './pages/CommentsPage';
+import CommentPage from './pages/CommentPage';
 
 import './style.css';
 
@@ -18,11 +20,11 @@ ReactDOM.render(
       <Route path="users" component={UsersPage}>
         <Route path=":userId" component={UserPage}></Route>
       </Route>
-      <Route path="posts" component={Posts}>
-        {/* <Route path=":postId" component={Post}></Route> */}
+      <Route path="posts" component={PostsPage}>
+        <Route path=":postId" component={PostPage}></Route>
       </Route>
-      <Route path="comments" component={Comments}>
-        {/* <Route path=":commentId" component={Comment}></Route> */}
+      <Route path="comments" component={CommentsPage}>
+        <Route path=":commentId" component={CommentPage}></Route>
       </Route>
     </Route>
   </Router>

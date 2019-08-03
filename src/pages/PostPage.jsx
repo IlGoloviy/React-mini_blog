@@ -1,6 +1,6 @@
 import React from 'react';
 import Post from '../components/Post';
-import User from '../components/User';
+import Comment from '../components/Comment';
 import axios from 'axios';
 
 export default class UserPage extends React.Component {
@@ -8,19 +8,24 @@ export default class UserPage extends React.Component {
     super(props);
     this.state = {
       post: null,
-      user: null
+      comments: null
     }
   }
   
   render() {
-    
+    let commentsPost;
+    if (this.state.comments) {
+      commentsPost = this.state.comments.map(com => {
+        return <Comment key={com.id} comment={com} />
+      });
+    }
+
     return (
       <div className="post-page">
         {this.state.post && <Post post={this.state.post} />}
-        {this.state.user && 
-          <div>
-            <h3>author of this post</h3>
-            <User user={this.state.user} />
+        {this.state.comments && 
+          <div className="post-page-comments">
+            {commentsPost}
           </div>}
       </div>
     );
@@ -33,10 +38,13 @@ export default class UserPage extends React.Component {
   }
 
   componentDidUpdate() {
-    const idUser = this.state.post.userId;
-    if (idUser) {
-      axios.get(`http://jsonplaceholder.typicode.com/users/${idUser}`).then(res => {
-        this.setState({user: res.data});
+    if (this.state.post && !this.state.comments) {
+      const idPost = this.state.post.id;
+      axios.get(`http://jsonplaceholder.typicode.com/comments/`).then(res => {
+        const arrComments = res.data.filter(comment => {
+          return (comment.postId === idPost);
+        }); 
+        this.setState({comments: arrComments});
       });
     }
   }

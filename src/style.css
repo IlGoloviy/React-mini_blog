@@ -153,7 +153,20 @@
     font-size: 18px;
 }
 
-.user-page,
+.user-page {
+    height: calc(100vh - 109px - 47px - 68px - 60px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 25px;
+}
+
+.user-page-posts {
+    padding: 15px;
+    height: 100%;
+    overflow: auto;
+}
+
 .blank-page {
     height: calc(100vh - 109px - 47px - 68px);
     display: flex;
@@ -191,11 +204,13 @@
 }
 
 .post-page {
-    width: 55%;
-    height: calc(100vh - 109px - 47px - 68px);
+    width: 75%;
     margin: 0 auto;
+    height: calc(100vh - 109px - 47px - 68px);
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .comment-list {

@@ -55,6 +55,9 @@
 .desc {
     padding: 5px 25px;
     background: #e1ecea;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .user-list {
@@ -278,4 +281,18 @@
 .arrow:nth-child(4) {
     margin-right: 0;
     margin-left: 10px;
+}
+
+/* flux */
+
+.link-add_post {
+    display: block;
+}
+
+.modal-add_post {
+    height: calc(100vh - 109px - 47px - 68px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

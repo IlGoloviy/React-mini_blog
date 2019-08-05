@@ -9,6 +9,7 @@ import PostsPage from './pages/PostsPage';
 import PostPage from './pages/PostPage';
 import CommentsPage from './pages/CommentsPage';
 import CommentPage from './pages/CommentPage';
+import Modal from './pages/Modal';
 
 import './style.css';
 
@@ -23,6 +24,7 @@ ReactDOM.render(
       <Route path="posts" component={PostsPage}>
         <Route path=":postId" component={PostPage}></Route>
       </Route>
+      <Route path="modal" component={Modal}></Route>
       <Route path="comments" component={CommentsPage}>
         <Route path=":commentId" component={CommentPage}></Route>
       </Route>

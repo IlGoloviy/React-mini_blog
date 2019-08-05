@@ -1,5 +1,6 @@
 import React from 'react';
 import PostsList from '../components/PostsList';
+import {Link} from 'react-router';
 
 export default class PostsPage extends React.Component {
   render() {
@@ -7,6 +8,11 @@ export default class PostsPage extends React.Component {
       <>
       <h1 className="desc">
         Posts
+          <button className="btn-add_post">
+            <Link to="/modal" className="link-add_post">  
+              add post
+            </Link>
+          </button>
       </h1>
       { 
         (!this.props.children) 

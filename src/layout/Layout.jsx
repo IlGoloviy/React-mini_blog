@@ -1,15 +1,8 @@
 import React from 'react';
 import Menu from '../components/Menu';
-import {Route, Switch} from 'react-router-dom';
-import Main from '../pages/Main';
-import UsersPage from '../pages/UsersPage';
-import UserPage from '../pages/UserPage';
-import PostsPage from '../pages/PostsPage';
-import PostPage from '../pages/PostPage';
-import CommentsPage from '../pages/CommentsPage';
-import CommentPage from '../pages/CommentPage';
-import Modal from '../pages/Modal';
 import MenuItem from '../components/MenuItem';
+import routes from '../routes';
+import {Route, Switch} from 'react-router-dom';
 
 class Layout extends React.Component {
   constructor(props) {
@@ -43,14 +36,9 @@ class Layout extends React.Component {
       </div>
       <div className="container">
         <Switch>
-          <Route exact path="/" component={Main} />
-          <Route path="/user/:userId" component={UserPage} />
-          <Route path="/users" component={UsersPage} />
-          <Route path="/posts" component={PostsPage} />
-          <Route path="/post/:postId" component={PostPage} />
-          <Route path="/modal" component={Modal} />
-          <Route path="/comments" component={CommentsPage} />
-          <Route path="/comments/:commentId" component={CommentPage} />
+          {routes.map((route, key) => {
+            return <Route key={key} {...route} />
+          })}
         </Switch>
       </div>
       <footer className="footer">

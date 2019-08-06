@@ -135,7 +135,6 @@
 
 .user-card-tabletext span {
     padding: 5px 10px;
-    
     margin-right: 5px;
 }
 
@@ -158,7 +157,7 @@
 }
 
 .user-page {
-    height: calc(100vh - 109px - 47px - 68px - 60px);
+    height: calc(100vh - 109px - 47px - 68px - 13px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -209,7 +208,7 @@
 
 .post-page {
     margin: 0 auto;
-    height: calc(100vh - 109px - 47px - 68px - 50px);
+    height: calc(100vh - 109px - 47px - 68px - 3px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -265,7 +264,7 @@
 }
 
 .comment-page {
-    height: calc(100vh - 109px - 47px - 68px);
+    height: calc(100vh - 109px - 47px - 21px);
     display: flex;
     align-items: center;
     justify-content: center;

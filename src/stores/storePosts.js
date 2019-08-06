@@ -1,7 +1,7 @@
 import dispatcher from '../dispatcher';
 import {EventEmitter} from 'events';
 
-class postStore extends EventEmitter {
+class StorePosts extends EventEmitter {
   constructor() {
     super();
     this.posts = [];
@@ -13,11 +13,12 @@ class postStore extends EventEmitter {
 
   addPost(post) {
     this.posts = [post, ...this.posts];
+    console.log(this.posts);
     this.change();
   }
 
   getPosts(posts) {
-    this.posts = posts;
+    this.posts = [...this.posts, ...posts];
     this.change();
   }
 
@@ -39,6 +40,6 @@ class postStore extends EventEmitter {
   }
 }
 
-const store = new postStore();
+const store = new StorePosts();
 dispatcher.register(store.handleActions);
 export default store;

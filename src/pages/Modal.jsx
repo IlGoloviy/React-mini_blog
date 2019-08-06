@@ -1,13 +1,15 @@
 import React from 'react';
 import axios from 'axios';
-import PostsPage from '../pages/PostsPage';
+import { addPost } from '../actions/actionCreators';
+import { Redirect } from 'react-router-dom';
 
 export default class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       post: null,
-      users: null
+      users: null,
+      redirect: false
     }
     this.userId = React.createRef();
     this.title = React.createRef();
@@ -21,11 +23,14 @@ export default class Modal extends React.Component {
       title: this.title.current.value,
       body: this.text.current.value
     };
-    this.setState({post});
+    this.setState({post, redirect: true});
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log(state);
+    if (state.post) {
+      console.log(state.post);
+      addPost(state.post);
+    }
     return null;
   }
 
@@ -36,24 +41,28 @@ export default class Modal extends React.Component {
         return <option key={user.id} value={user.id}>{user.name}</option>
       });
     }
+
+    if (this.state.redirect) {
+      return <Redirect to="/posts" />;
+    }
     
     return (
       <>
       <h1 className="desc">adding a post</h1>
       <div className="modal-add_post">
-        <label htmlFor="">
+        <label>
           user
-          <select ref={this.userId} name="" id="">
+          <select ref={this.userId}>
             {optionList}
           </select>
         </label>
-        <label htmlFor="">
+        <label>
           title
           <input ref={this.title} type="text"/>
         </label>
-        <label htmlFor="">
+        <label>
           text
-          <textarea ref={this.text} name="" id="" cols="30" rows="10"></textarea>
+          <textarea ref={this.text} cols="30" rows="10"></textarea>
         </label>
         <button onClick={this.createPost}>create</button>
       </div>

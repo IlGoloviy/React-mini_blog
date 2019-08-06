@@ -1,25 +1,18 @@
 import React from 'react';
 import Post from './Post';
-import axios from 'axios';
 
 export default class PostsList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      posts: null
-    }
-  }
-  
   render() {
-    if (!this.state.posts) {
+    console.log(this.props.posts);
+    if (!this.props.posts) {
       return (
         <div className="blank-page">
           <div className="spiner"></div>
         </div>
       );
     } else {
-      const posts = this.state.posts.map(post => {
-        return <Post key={post.id} post={post}></Post>
+      const posts = this.props.posts.map((post, index) => {
+        return <Post key={index} post={post}></Post>
       });
 
       return (
@@ -28,11 +21,5 @@ export default class PostsList extends React.Component {
         </div>
       );
     }
-  }
-
-  componentDidMount() {
-    axios.get('http://jsonplaceholder.typicode.com/posts/').then(res => {
-      this.setState({posts: res.data});
-    });
   }
 }

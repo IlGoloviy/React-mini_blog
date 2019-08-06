@@ -32,7 +32,7 @@ export default class UserPage extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`http://jsonplaceholder.typicode.com/posts/${this.props.params.postId}`).then(res => {
+    axios.get(`http://jsonplaceholder.typicode.com/posts/${this.props.match.params.postId}`).then(res => {
       this.setState({post: res.data});
     });
   }

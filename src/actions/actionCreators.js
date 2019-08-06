@@ -6,6 +6,7 @@ export function addPost(data) {
     type: 'ADD_POST',
     data
   }
+  console.log(action);
   dispatcher.dispatch(action);
 }
 

@@ -27,7 +27,7 @@ export default class UserPage extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`http://jsonplaceholder.typicode.com/comments/${this.props.params.commentId}`).then(res => {
+    axios.get(`http://jsonplaceholder.typicode.com/comments/${this.props.match.params.commentId}`).then(res => {
       this.setState({comment: res.data});
     });
   }

@@ -287,6 +287,9 @@
 
 .link-add_post {
     display: block;
+    text-decoration: none;
+    padding: 5px 10px;
+    
 }
 
 .modal-add_post {

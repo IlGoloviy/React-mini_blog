@@ -9,7 +9,7 @@ export default class Menu extends React.Component {
           <img src={this.props.src} />
         </Link>
         <ul className="menu-items">
-          {this.props.children}
+          {this.props.children}  
         </ul>
       </nav>
     );

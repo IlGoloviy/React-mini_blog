@@ -80,6 +80,7 @@
     background: #93f8e6;
     padding: 5px 15px;
     border-radius: 5px 5px 0 0;
+    cursor: pointer;
 }
 
 .user-card-link {
@@ -289,7 +290,19 @@
     display: block;
     text-decoration: none;
     padding: 5px 10px;
-    
+    color: #000;
+    font-weight: bolder;
+    font-size: 16px;
+}
+
+.btn-add_post {
+    background: #22e453;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-add_post:hover {
+    border: 1px solid #1ec448;
 }
 
 .modal-add_post {
@@ -298,4 +311,46 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.modal-add_post > label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 40%;
+    font-size: 20px;
+}
+
+.modal-add_post > label span {
+    padding: 0 5px;
+    border: 1px solid #8b8b8b;
+    border-radius: 5px;
+}
+
+.modal-options,
+.modal-input,
+.modal-text {
+    font-size: 18px;
+    width: 80%;
+    border-radius: 5px;
+    border: 1px solid rgb(169, 169, 169);
+    padding: 3px 5px;
+    box-sizing: border-box;
+}
+
+.modal-options:focus,
+.modal-input:focus,
+.modal-text:focus {
+    border: 1px solid #22e453;
+    outline: none;
+}
+
+.modal-add_post > button {
+    padding: 5px;
+    background: #22e453;
+    border: 1px solid #1ec448;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
 }

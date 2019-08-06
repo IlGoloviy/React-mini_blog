@@ -51,18 +51,18 @@ export default class Modal extends React.Component {
       <h1 className="desc">adding a post</h1>
       <div className="modal-add_post">
         <label>
-          user
-          <select ref={this.userId}>
+          <span>user</span>
+          <select className="modal-options" ref={this.userId}>
             {optionList}
           </select>
         </label>
         <label>
-          title
-          <input ref={this.title} type="text"/>
+          <span>title</span>
+          <input className="modal-input" ref={this.title} type="text"/>
         </label>
         <label>
-          text
-          <textarea ref={this.text} cols="30" rows="10"></textarea>
+          <span>text</span>
+          <textarea ref={this.text} className="modal-text" cols="30" rows="5"></textarea>
         </label>
         <button onClick={this.createPost}>create</button>
       </div>

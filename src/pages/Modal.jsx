@@ -1,14 +1,15 @@
 import React from 'react';
-import axios from 'axios';
-import { addPost } from '../actions/actionCreators';
+import { connect } from 'react-redux';
+
 import { Redirect } from 'react-router-dom';
 
-export default class Modal extends React.Component {
+import { addPost } from '../actions/postActions';
+import { fetchUsers } from '../actions/userActions';
+
+class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      post: null,
-      users: null,
       redirect: false
     }
     this.userId = React.createRef();
@@ -23,21 +24,14 @@ export default class Modal extends React.Component {
       title: this.title.current.value,
       body: this.text.current.value
     };
-    this.setState({post, redirect: true});
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (state.post) {
-      console.log(state.post);
-      addPost(state.post);
-    }
-    return null;
+    this.props.dispatch(addPost(post));
+    this.setState({redirect: true});
   }
 
   render() {
     let optionList;
-    if (this.state.users) {
-      optionList = this.state.users.map(user => {
+    if (this.props.users) {
+      optionList = this.props.users.map(user => {
         return <option key={user.id} value={user.id}>{user.name}</option>
       });
     }
@@ -71,8 +65,16 @@ export default class Modal extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://jsonplaceholder.typicode.com/users/').then(res => {
-      this.setState({users: res.data});
-    });
+    if (!this.props.users.length) {
+      this.props.dispatch(fetchUsers());
+    }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    users: state.users.users
+  }
+}
+
+export default connect(mapStateToProps)(Modal);

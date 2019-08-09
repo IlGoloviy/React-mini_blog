@@ -1,19 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import User from '../components/User';
 import Post from '../components/Post';
-import axios from 'axios';
 
-export default class UserPage extends React.Component {
+import { fetchUser } from '../actions/userActions';
+import { fetchPosts } from '../actions/postActions';
+ 
+class UserPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
       posts: null
     }
   }
-  
+ 
   render() {
-    console.log('render')
     let postsUser;
     if (this.state.posts) {
       postsUser = this.state.posts.map(post => {
@@ -23,8 +25,10 @@ export default class UserPage extends React.Component {
 
     return (
       <div className="user-page">
-        {this.state.user && <User user={this.state.user}/>}
-        {this.state.posts && 
+        {(!Object.keys(this.props.user).length == 0) 
+          && <User user={this.props.user} />}
+        {this.state.posts 
+          && 
           <div className="user-page-posts">
             {postsUser}
           </div>}
@@ -33,20 +37,28 @@ export default class UserPage extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`http://jsonplaceholder.typicode.com/users/${this.props.match.params.userId}`).then(res => {
-      this.setState({user: res.data});
-    });
+    this.props.dispatch(fetchUser(this.props.match.params.userId));
+    if (!this.props.posts.length) {
+      this.props.dispatch(fetchPosts());
+    }
   }
 
   componentDidUpdate() {
-    if (this.state.user && !this.state.posts) {
-      const idUser = this.state.user.id;
-      axios.get(`http://jsonplaceholder.typicode.com/posts/`).then(res => {
-        const arrPosts = res.data.filter(post => {
-          return (post.userId === idUser);
-        }); 
-        this.setState({posts: arrPosts});
-      });
+    if ((!Object.keys(this.props.user).length == 0) && !this.state.posts) {
+      const idUser = this.props.user.id;
+      const userPosts = this.props.posts.filter(post => {
+        return (post.userId === idUser);
+      }); 
+      this.setState({posts: userPosts});
     }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    user: state.users.user,
+    posts: state.posts.posts
+  }
+}
+
+export default connect(mapStateToProps)(UserPage);

@@ -6,7 +6,7 @@ export default class Main extends React.Component {
       <div className="main-page">
         <div className="spiner">
           <p>
-            there must be something here
+            Redax is a very cool thing
           </p>
         </div>
       </div>

@@ -1,25 +1,22 @@
 import React from 'react';
-import Comment from './Comment';
-import axios from 'axios';
+import { connect } from 'react-redux';
 
-export default class CommentsList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      comments: null
-    }
-  }
+import Comment from './Comment';
+
+import { fetchComments } from '../actions/commentActions';
+
+class CommentsList extends React.Component {
   
   render() {
-    if (!this.state.comments) {
+    if (!this.props.comments.length) {
       return (
         <div className="blank-page">
           <div className="spiner"></div>
         </div>
       );
     } else {
-      const comments = this.state.comments.map(com => {
-        return <Comment key={com.id} comment={com}></Comment>
+      const comments = this.props.comments.map(comment => {
+        return <Comment key={comment.id} comment={comment}></Comment>
       });
 
       return (
@@ -31,8 +28,16 @@ export default class CommentsList extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://jsonplaceholder.typicode.com/comments/').then(res => {
-      this.setState({comments: res.data});
-    });
+    if (!this.props.comments.length) {
+      this.props.dispatch(fetchComments());
+    }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    comments: state.comments.comments
+  }
+}
+
+export default connect(mapStateToProps)(CommentsList);

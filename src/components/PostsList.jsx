@@ -1,10 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Post from './Post';
 
-export default class PostsList extends React.Component {
+import { fetchPosts } from '../actions/postActions';
+
+class PostsList extends React.Component {
   render() {
-    console.log(this.props.posts);
-    if (!this.props.posts) {
+    console.log(this.props.posts.length);
+    if (!this.props.posts.length) {
       return (
         <div className="blank-page">
           <div className="spiner"></div>
@@ -22,4 +26,18 @@ export default class PostsList extends React.Component {
       );
     }
   }
+
+  componentDidMount() {
+    if (!this.props.posts.length) {
+      this.props.dispatch(fetchPosts());
+    }
+  }
 }
+
+function mapStateToProps(state) {
+  return {
+    posts: state.posts.posts
+  }
+}
+
+export default connect(mapStateToProps)(PostsList);

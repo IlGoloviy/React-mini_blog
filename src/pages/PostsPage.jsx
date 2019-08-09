@@ -1,22 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import PostsList from '../components/PostsList';
-import {Link} from 'react-router-dom';
-import {getPosts} from '../actions/actionCreators';
-import StorePosts from '../stores/storePosts';
 
-export default class PostsPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      posts: null
-    }
-    this.onPostChange = this.onPostChange.bind(this);
-  }
-
-  onPostChange() {
-    const posts = StorePosts.posts;
-    this.setState({posts});
-  }
+class PostsPage extends React.Component {
   
   render() {
     return (
@@ -32,20 +19,13 @@ export default class PostsPage extends React.Component {
       { 
         (!this.props.children) 
         ?
-        <PostsList posts={this.state.posts}></PostsList>
+        <PostsList></PostsList>
         :
         this.props.children
       }
       </>
     );
   }
-
-  componentDidMount() {
-    StorePosts.on('change', this.onPostChange);
-    getPosts();
-  }
-
-  componentWillUnmount() {
-    StorePosts.removeListener('change', this.onPostChange);
-  }
 }
+
+export default PostsPage;

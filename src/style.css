@@ -156,6 +156,10 @@
     font-size: 18px;
 }
 
+.spiner > p {
+    padding: 10px;
+}
+
 .user-page {
     height: calc(100vh - 109px - 47px - 68px - 13px);
     display: flex;

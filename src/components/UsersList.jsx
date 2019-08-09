@@ -1,24 +1,20 @@
 import React from 'react';
-import User from '../components/User';
-import axios from 'axios';
+import { connect } from 'react-redux';
 
-export default class UserList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      users: null
-    }
-  }
-  
+import User from '../components/User';
+import { fetchUsers } from '../actions/userActions';
+
+class UsersList extends React.Component {
+ 
   render() {
-    if (!this.state.users) {
+    if (!this.props.users.length) {
       return (
         <div className="blank-page">
           <div className="spiner"></div>
         </div>
       );
     } else {
-      const users = this.state.users.map(user => {
+      const users = this.props.users.map(user => {
         return <User key={user.id} user={user}></User>
       });
 
@@ -31,8 +27,16 @@ export default class UserList extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://jsonplaceholder.typicode.com/users/').then(res => {
-      this.setState({users: res.data});
-    });
+    if (!this.props.users.length) {
+      this.props.dispatch(fetchUsers());
+    }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    users: state.users.users
+  }
+}
+
+export default connect(mapStateToProps)(UsersList);

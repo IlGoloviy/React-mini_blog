@@ -1,13 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Post from '../components/Post';
 import Comment from '../components/Comment';
-import axios from 'axios';
 
-export default class UserPage extends React.Component {
+import { fetchPost } from '../actions/postActions';
+import { fetchComments } from '../actions/commentActions';
+
+class PostPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      post: null,
       comments: null
     }
   }
@@ -15,15 +18,17 @@ export default class UserPage extends React.Component {
   render() {
     let commentsPost;
     if (this.state.comments) {
-      commentsPost = this.state.comments.map(com => {
-        return <Comment key={com.id} comment={com} />
+      commentsPost = this.state.comments.map(comment => {
+        return <Comment key={comment.id} comment={comment} />
       });
     }
 
     return (
       <div className="post-page">
-        {this.state.post && <Post post={this.state.post} />}
-        {this.state.comments && 
+        {(!Object.keys(this.props.post).length == 0) 
+          && <Post post={this.props.post} />}
+        {this.state.comments 
+          && 
           <div className="post-page-comments">
             {commentsPost}
           </div>}
@@ -32,20 +37,28 @@ export default class UserPage extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`http://jsonplaceholder.typicode.com/posts/${this.props.match.params.postId}`).then(res => {
-      this.setState({post: res.data});
-    });
+    this.props.dispatch(fetchPost(this.props.match.params.postId));
+    if (!this.props.comments.length) {
+      this.props.dispatch(fetchComments());
+    }
   }
 
   componentDidUpdate() {
-    if (this.state.post && !this.state.comments) {
-      const idPost = this.state.post.id;
-      axios.get(`http://jsonplaceholder.typicode.com/comments/`).then(res => {
-        const arrComments = res.data.filter(comment => {
-          return (comment.postId === idPost);
-        }); 
-        this.setState({comments: arrComments});
-      });
+    if ((!Object.keys(this.props.post).length == 0) && !this.state.comments) {
+      const idPost = this.props.post.id;
+      const postComments = this.props.comments.filter(comment => {
+        return (comment.postId === idPost);
+      }); 
+      this.setState({comments: postComments});
     }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    post: state.posts.post,
+    comments: state.comments.comments
+  }
+}
+
+export default connect(mapStateToProps)(PostPage);

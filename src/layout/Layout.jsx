@@ -16,9 +16,6 @@ class Layout extends React.Component {
     return window.location.pathname === href;
   }
 
-  /* не знаю на сколько это правильно делать onClick 
-    (чтоб изменить состояние просто в пустую) 
-    только для того чтобы Menu запускалось по новой на рендер */
   click() {
     this.setState({active: null});
   }

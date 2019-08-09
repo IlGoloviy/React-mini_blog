@@ -1,9 +1,9 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default class Post extends React.Component {
   render() {
-    const post = this.props.post;
+    const { post } = this.props;
 
     return (
       <div className="post-card">

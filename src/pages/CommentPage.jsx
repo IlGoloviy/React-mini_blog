@@ -1,14 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Comment from '../components/Comment';
 import User from '../components/User';
 import Post from '../components/Post';
-import axios from 'axios';
 
-export default class UserPage extends React.Component {
+import { fetchComment } from '../actions/commentActions';
+import { fetchUser, deleteUser } from '../actions/userActions';
+import { fetchPost, deletePost } from '../actions/postActions';
+
+class CommentPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: null,
       post: null,
       user: null
     }
@@ -17,33 +21,44 @@ export default class UserPage extends React.Component {
   render() {
     return (
       <div className="comment-page">
-        {this.state.user && <User user={this.state.user} />}
+        {(Object.keys(this.props.user).length != 0) && <User user={this.props.user} />}
         <div className="arrow">&#8658;</div>
-        {this.state.post && <Post post={this.state.post} />}
+        {(Object.keys(this.props.post).length != 0) && <Post post={this.props.post} />}
         <div className="arrow"><span>&#8658;</span></div>
-        {this.state.comment && <Comment comment={this.state.comment}/>}
+        {(Object.keys(this.props.comment).length != 0) && <Comment comment={this.props.comment}/>}
       </div>
     );
   }
 
   componentDidMount() {
-    axios.get(`http://jsonplaceholder.typicode.com/comments/${this.props.match.params.commentId}`).then(res => {
-      this.setState({comment: res.data});
-    });
+    this.props.dispatch(fetchComment(this.props.match.params.commentId));
   }
 
   componentDidUpdate() {
-    if (this.state.comment && !this.state.post) {
-      const idPost = this.state.comment.postId;
-      axios.get(`http://jsonplaceholder.typicode.com/posts/${idPost}`).then(res => {
-        this.setState({post: res.data});
-      });
+    if ((Object.keys(this.props.comment).length != 0) 
+      && (Object.keys(this.props.post).length == 0)) {
+      const idPost = this.props.comment.postId;
+      this.props.dispatch(fetchPost(idPost));
     }
-    if (this.state.post && !this.state.user) {
-      const idUser = this.state.post.userId;
-      axios.get(`http://jsonplaceholder.typicode.com/users/${idUser}`).then(res => {
-        this.setState({user: res.data});
-      });
+    if ((Object.keys(this.props.post).length != 0)
+      && (Object.keys(this.props.user).length == 0)) {
+      const idUser = this.props.post.userId;
+      this.props.dispatch(fetchUser(idUser));
     }
   }
+
+  componentWillUnmount() {
+    this.props.dispatch(deletePost());
+    this.props.dispatch(deleteUser());
+  }
 }
+
+function mapStateToProps(state) {
+  return {
+    comment: state.comments.comment,
+    user: state.users.user,
+    post: state.posts.post
+  }
+}
+
+export default connect(mapStateToProps)(CommentPage);

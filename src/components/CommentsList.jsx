@@ -1,37 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Comment from './Comment';
 
 import { fetchComments } from '../actions/commentActions';
 
-class CommentsList extends React.Component {
+const CommentsList = props => {
+  useEffect(() => {
+    if (!props.comments.length) {
+      props.dispatch(fetchComments());
+    }
+  }, []);
+
+  if (!props.comments.length) {
+    return (
+      <div className="blank-page">
+        <div className="spiner"></div>
+      </div>
+    );
+  } else {
+    const comments = props.comments.map(comment => {
+      return <Comment key={comment.id} comment={comment}></Comment>
+    });
+
+    return (
+      <div className="comment-list">
+        {comments}
+      </div>
+    );
+  }
   
-  render() {
-    if (!this.props.comments.length) {
-      return (
-        <div className="blank-page">
-          <div className="spiner"></div>
-        </div>
-      );
-    } else {
-      const comments = this.props.comments.map(comment => {
-        return <Comment key={comment.id} comment={comment}></Comment>
-      });
-
-      return (
-        <div className="comment-list">
-          {comments}
-        </div>
-      );
-    }
-  }
-
-  componentDidMount() {
-    if (!this.props.comments.length) {
-      this.props.dispatch(fetchComments());
-    }
-  }
 }
 
 function mapStateToProps(state) {

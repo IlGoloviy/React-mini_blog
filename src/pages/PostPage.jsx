@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Post from '../components/Post';
@@ -7,51 +7,47 @@ import Comment from '../components/Comment';
 import { fetchPost } from '../actions/postActions';
 import { fetchComments } from '../actions/commentActions';
 
-class PostPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      comments: null
-    }
-  }
+const PostPage = props => {
+  const [comments, setComments] = useState('');
   
-  render() {
-    let commentsPost;
-    if (this.state.comments) {
-      commentsPost = this.state.comments.map(comment => {
-        return <Comment key={comment.id} comment={comment} />
-      });
+  useEffect(() => {
+    props.dispatch(fetchPost(props.match.params.postId));
+    if (!props.comments.length) {
+      props.dispatch(fetchComments());
     }
+  }, []);
 
-    return (
-      <div className="post-page">
-        {(!Object.keys(this.props.post).length == 0) 
-          && <Post post={this.props.post} />}
-        {this.state.comments 
-          && 
-          <div className="post-page-comments">
-            {commentsPost}
-          </div>}
-      </div>
-    );
+  useEffect(() => {
+    return () => {
+      if ((Object.keys(props.post).length != 0) && !comments) {
+        console.log('aaaaaaa')
+        const idPost = props.post.id;
+        const postComments = props.comments.filter(comment => {
+          return (comment.postId === idPost);
+        }); 
+        setComments(postComments);
+      }
+    }
+  });
+
+  let commentsPost;
+  if (comments) {
+    commentsPost = comments.map(comment => {
+      return <Comment key={comment.id} comment={comment} />
+    });
   }
 
-  componentDidMount() {
-    this.props.dispatch(fetchPost(this.props.match.params.postId));
-    if (!this.props.comments.length) {
-      this.props.dispatch(fetchComments());
-    }
-  }
-
-  componentDidUpdate() {
-    if ((!Object.keys(this.props.post).length == 0) && !this.state.comments) {
-      const idPost = this.props.post.id;
-      const postComments = this.props.comments.filter(comment => {
-        return (comment.postId === idPost);
-      }); 
-      this.setState({comments: postComments});
-    }
-  }
+  return (
+    <div className="post-page">
+      {(!Object.keys(props.post).length == 0) 
+        && <Post post={props.post} />}
+      {comments 
+        && 
+        <div className="post-page-comments">
+          {commentsPost}
+        </div>}
+    </div>
+  );
 }
 
 function mapStateToProps(state) {

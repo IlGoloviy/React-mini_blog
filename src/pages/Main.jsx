@@ -1,15 +1,15 @@
 import React from 'react';
 
-export default class Main extends React.Component {
-  render() {
-    return (
-      <div className="main-page">
-        <div className="spiner">
-          <p>
-            Redax is a very cool thing
-          </p>
-        </div>
+const Main = props => {
+  return (
+    <div className="main-page">
+      <div className="spiner">
+        <p>
+          Redax is a very cool thing
+        </p>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+export default Main;

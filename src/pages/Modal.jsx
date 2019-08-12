@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { Redirect } from 'react-router-dom';
@@ -6,69 +6,82 @@ import { Redirect } from 'react-router-dom';
 import { addPost } from '../actions/postActions';
 import { fetchUsers } from '../actions/userActions';
 
-class Modal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirect: false
+const Modal = props => {
+  const [redirect, setRedirect] = useState(false);
+  const [description, setDescription] = useState('');
+  const [text, setText] = useState('');
+  const [idUser, setIdUser] = useState('');
+  
+  useEffect(() => {
+    if (!props.users.length) {
+      props.dispatch(fetchUsers());
     }
-    this.userId = React.createRef();
-    this.title = React.createRef();
-    this.text = React.createRef();
-    this.createPost = this.createPost.bind(this);
+  }, []);
+
+  const inputUser = event => {
+    setIdUser(event.target.value);
   }
 
-  createPost() {
+  const inputDescription = event => {
+    setDescription(event.target.value);
+  }
+
+  const inputText = event => {
+    setText(event.target.value);
+  }
+
+  const createPost = () => {
     const post = {
-      userId: this.userId.current.value,
-      title: this.title.current.value,
-      body: this.text.current.value
+      userId: idUser,
+      title: description,
+      body: text
     };
-    this.props.dispatch(addPost(post));
-    this.setState({redirect: true});
+    props.dispatch(addPost(post));
+    setRedirect(true);
   }
 
-  render() {
-    let optionList;
-    if (this.props.users) {
-      optionList = this.props.users.map(user => {
-        return <option key={user.id} value={user.id}>{user.name}</option>
-      });
-    }
+  let optionList;
+  if (props.users) {
+    optionList = props.users.map(user => {
+      return <option key={user.id} value={user.id}>{user.name}</option>
+    });
+  }
 
-    if (this.state.redirect) {
-      return <Redirect to="/posts" />;
-    }
+  if (redirect) {
+    return <Redirect to="/posts" />;
+  }
     
-    return (
-      <>
-      <h1 className="desc">adding a post</h1>
-      <div className="modal-add_post">
-        <label>
-          <span>user</span>
-          <select className="modal-options" ref={this.userId}>
-            {optionList}
-          </select>
-        </label>
-        <label>
-          <span>title</span>
-          <input className="modal-input" ref={this.title} type="text"/>
-        </label>
-        <label>
-          <span>text</span>
-          <textarea ref={this.text} className="modal-text" cols="30" rows="5"></textarea>
-        </label>
-        <button onClick={this.createPost}>create</button>
-      </div>
-      </>
-    );
-  }
-
-  componentDidMount() {
-    if (!this.props.users.length) {
-      this.props.dispatch(fetchUsers());
-    }
-  }
+  return (
+    <>
+    <h1 className="desc">adding a post</h1>
+    <div className="modal-add_post">
+      <label>
+        <span>user</span>
+        <select className="modal-options" onChange={inputUser}>
+          {optionList}
+        </select>
+      </label>
+      <label>
+        <span>title</span>
+        <input 
+          className="modal-input"  
+          type="text"
+          onChange={inputDescription}
+        />
+      </label>
+      <label>
+        <span>text</span>
+        <textarea 
+          className="modal-text" 
+          cols="30" rows="5"
+          onChange={inputText}
+          value={text}
+        />
+      </label>
+      <button onClick={createPost}>create</button>
+    </div>
+    </>
+  );
 }
 
 function mapStateToProps(state) {

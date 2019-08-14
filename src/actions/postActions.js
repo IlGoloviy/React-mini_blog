@@ -1,42 +1,16 @@
 import axios from 'axios';
 
 export function fetchPosts() {
-  return function(dispath) {
-    dispath({type: 'FETCH_POSTS'});
-
-    axios.get(`http://jsonplaceholder.typicode.com/posts`)
-      .then(response => {
-        dispath({
-          type: 'FETCH_POSTS_FULFILLED',
-          payload: response.data
-        })
-      })
-      .catch(err => {
-        dispath({
-          type: 'FETCH_POSTS_REJECTED',
-          payload: err
-        })
-      })
+  return {
+    type: 'FETCH_POSTS',
+    payload: axios.get(`http://jsonplaceholder.typicode.com/posts/`).then(res => res.data)
   }
 }
 
 export function fetchPost(id) {
-  return function(dispath) {
-    dispath({type: 'FETCH_POST'});
-
-    axios.get(`http://jsonplaceholder.typicode.com/posts/${id}`)
-      .then(response => {
-        dispath({
-          type: 'FETCH_POST_FULFILLED',
-          payload: response.data
-        })
-      })
-      .catch(err => {
-        dispath({
-          type: 'FETCH_POST_REJECTED',
-          payload: err
-        })
-      })
+  return {
+    type: 'FETCH_POST',
+    payload: axios.get(`http://jsonplaceholder.typicode.com/posts/${id}`).then(res => res.data)
   }
 }
 

@@ -24,7 +24,7 @@ export function fetchUser(id) {
   return function(dispath) {
     dispath({type: 'FETCH_USER'});
 
-    axios.get(`http://jsonplaceholder.typicode.com/users/${id}`)
+    axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
       .then(response => {
         dispath({
           type: 'FETCH_USER_FULFILLED',

@@ -4,7 +4,7 @@ export function fetchPosts() {
   return function(dispath) {
     dispath({type: 'FETCH_POSTS'});
 
-    axios.get(`http://jsonplaceholder.typicode.com/posts`)
+    axios.get(`https://jsonplaceholder.typicode.com/posts`)
       .then(response => {
         dispath({
           type: 'FETCH_POSTS_FULFILLED',
@@ -24,7 +24,7 @@ export function fetchPost(id) {
   return function(dispath) {
     dispath({type: 'FETCH_POST'});
 
-    axios.get(`http://jsonplaceholder.typicode.com/posts/${id}`)
+    axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
       .then(response => {
         dispath({
           type: 'FETCH_POST_FULFILLED',

@@ -4,7 +4,7 @@ export function fetchComments() {
   return function(dispath) {
     dispath({type: 'FETCH_COMMENTS'});
 
-    axios.get(`http://jsonplaceholder.typicode.com/comments`)
+    axios.get(`https://jsonplaceholder.typicode.com/comments`)
       .then(response => {
         dispath({
           type: 'FETCH_COMMENTS_FULFILLED',
@@ -24,7 +24,7 @@ export function fetchComment(id) {
   return function(dispath) {
     dispath({type: 'FETCH_COMMENT'});
 
-    axios.get(`http://jsonplaceholder.typicode.com/comments/${id}`)
+    axios.get(`https://jsonplaceholder.typicode.com/comments/${id}`)
       .then(response => {
         dispath({
           type: 'FETCH_COMMENT_FULFILLED',
